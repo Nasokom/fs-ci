@@ -1,9 +1,17 @@
-import { test, describe, expect } from '@playwright/test'
-
+import { test, describe, expect, beforeEach} from '@playwright/test'
 describe('Pokedex', () => {
+
+  beforeEach(async ({page})=>{
+    await page.goto('http://localhost:8080/')
+
+  })
   test('front page can be opened', async ({ page }) => {
-     await page.goto('http://localhost:3000/')
     await expect(page.getByText('ivysaur')).toBeVisible()
     await expect(page.getByText('Pokémon and Pokémon character names are trademarks of Nintendo.')).toBeVisible()
+  })
+
+    test('one can navigate to a pokemon page', async ({ page }) => {
+    await page.getByText('ivysaur').click()
+    await expect(page.getByText('chlorophyll')).toBeVisible()
   })
 })
