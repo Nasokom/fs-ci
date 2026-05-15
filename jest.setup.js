@@ -1,6 +1,4 @@
-import { TextEncoder, TextDecoder } from 'util';
-
-const global = {}
-
+import { TextEncoder, TextDecoder } from 'util'
+/*global global*/
 global.TextEncoder = TextEncoder
 global.TextDecoder = TextDecoder
