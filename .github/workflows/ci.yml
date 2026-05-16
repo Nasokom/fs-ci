@@ -7,20 +7,6 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    with:
-     wait-list: |
-    [
-      {
-        "workflowFile": "hello.yml",
-      },
-      {
-        "workflowFile": "pipeline.yml",
-      },
-     
-        {
-        "workflowFile": "playwright.yml",
-      }
-    ]
     steps:
       - uses: actions/checkout@v5
       - name: Test
