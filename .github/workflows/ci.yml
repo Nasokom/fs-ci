@@ -2,8 +2,8 @@ on:
   workflow_run:
         workflows: ['Hello World!','Deployment pipeline', 'Playwright Tests']
         types: [completed]
-        branches:
-            - 'beta'
+        branches: 
+         - main
 
 jobs:
   ci:
