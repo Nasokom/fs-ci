@@ -1,2 +1,2 @@
 - name: Trigger deployment
-  run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
+  run: curl ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
