@@ -1,5 +1,0 @@
-services:
-  - type: web
-    runtime: node
-    name: my-service
-    healthCheckPath: /health

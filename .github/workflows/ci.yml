@@ -1,9 +1,12 @@
 on:
-  workflow_run:
-        workflows: ['Hello World!','Deployment pipeline', 'Playwright Tests']
-        types: [completed]
-        branches: 
-         - main
+ push:
+    branches:
+      - main
+  # workflow_run:
+  #       workflows: ['Hello World!','Deployment pipeline', 'Playwright Tests']
+  #       types: [completed]
+  #       branches: 
+  #        - main
 
 jobs:
   ci:
