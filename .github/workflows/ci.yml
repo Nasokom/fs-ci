@@ -7,8 +7,6 @@ on:
   #       types: [completed]
   #       branches: 
   #        - main
-    pull_request:
-    types: [opened, synchronize]
 jobs:
   ci:
     runs-on: ubuntu-latest
