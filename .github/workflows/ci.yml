@@ -7,7 +7,7 @@ on:
   #       types: [completed]
   #       branches: 
   #        - main
-  
+    if: ${{ github.event_name == 'push' }} 
     pull_request:
     branches: [main]
     types: [opened, synchronize]
