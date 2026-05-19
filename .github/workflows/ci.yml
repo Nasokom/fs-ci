@@ -26,4 +26,4 @@ jobs:
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.75.0
         env:
-          GITHUB_TOKEN: ${{ secrets.fs-ci}}
+          GITHUB_TOKEN: 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
