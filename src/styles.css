@@ -12,7 +12,6 @@ body {
   flex-direction: column;
   font-family: "Open Sans";
   font-size: 18px;
-  background-color: red;
 }
 
 body > div {
