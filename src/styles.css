@@ -11,6 +11,7 @@ body {
   align-items: center;
   flex-direction: column;
   font-family: "Open Sans";
+  background-color: #000;
 }
 
 body > div {
