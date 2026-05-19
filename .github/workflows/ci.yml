@@ -26,4 +26,4 @@ jobs:
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.75.0
         env:
-          GITHUB_TOKEN: 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
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
