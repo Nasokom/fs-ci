@@ -49,9 +49,14 @@ jobs:
           curl "$deploy_url"      
 
   tag_release:
+    needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
     steps:
-    - name: Bump version and push tag
-      uses: anothrNick/github-tag-action@1.75.0
-      env: 
+     - name: Checkout repository
+       uses: actions/checkout@v4
+       with:
+          fetch-depth: 0
+     - name: Bump version and push tag
+       uses: anothrNick/github-tag-action@1.75.0
+       env: 
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
