@@ -21,7 +21,4 @@ jobs:
       - name: commit messages
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-        run: echo "$COMMIT_MESSAGES"
-
-      - name: validation
-        run : contains(toJson(github.event.commits.*.message),'#skip')
+        run : contains($COMMIT_MESSAGES,'#skip')
