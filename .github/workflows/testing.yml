@@ -24,5 +24,6 @@ jobs:
         run: echo "$COMMIT_MESSAGES"
 
       - name: Join all msg
-        JOIN_MSG: ${{join(COMMIT_MESSAGES,', ')}}
+        env:
+           JOIN_MSG: ${{ join(COMMIT_MESSAGES,', ') }}
         run: echo "$JOIN_MSG"
