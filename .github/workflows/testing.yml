@@ -25,5 +25,5 @@ jobs:
 
       - name: Join all msg
         env:
-           JOIN_MSG: ${{ contains( join(toJson(github.event.commits.*.message), ', '), "#skip") }}
+           JOIN_MSG: ${{ contains( join( toJson(github.event.commits.*.message), ', '), '#skip' ) }}
         run: echo JOIN_MSG
