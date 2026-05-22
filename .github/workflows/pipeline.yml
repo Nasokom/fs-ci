@@ -46,7 +46,7 @@ jobs:
         run: echo 'Valid commit'
 
       - name: Deploy
-        if: github.ref == 'refs/heads/main' && ${{ github.event_name == 'push' }} 
+        if: github.ref == 'refs/heads/main' && ${{ github.event_name == 'push' }} && contains( join( github.event.commits.*.message, ', '), '#skip' ) == false
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
@@ -55,6 +55,7 @@ jobs:
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
+    if: contains( join( github.event.commits.*.message, ', '), '#skip' ) == false
     steps:
      - name: Checkout repository
        uses: actions/checkout@v4
