@@ -67,13 +67,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   discord_msg:
-  runs-on: ubuntu-latest
-
+  if: ${{ always() }}
   steps:
-
     - name: The job has succeeded
-    
-    - uses: sarisia/actions-status-discord@v1
+      uses: sarisia/actions-status-discord@v1
       if: ${{ success() }}
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
