@@ -42,7 +42,7 @@ jobs:
           retention-days: 30
 
       - name: skip commit 
-        if: !contains( join( github.event.commits.*.message, ', '), '#skip' )
+        if: contains( join( github.event.commits.*.message, ', '), '#skip' ) == false
         run: echo 'Valid commit'
 
       - name: Deploy
