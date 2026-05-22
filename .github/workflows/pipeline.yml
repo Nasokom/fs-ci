@@ -68,6 +68,7 @@ jobs:
 
   discord_msg:
     if: ${{ always() }}
+    runs-on: ubuntu-latest
     steps:
       - name: The job has succeeded
         uses: sarisia/actions-status-discord@v1
