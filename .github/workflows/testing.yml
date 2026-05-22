@@ -26,4 +26,4 @@ jobs:
       - name: Join all msg
         env:
            JOIN_MSG: ${{ contains( join( github.event.commits.*.message, ', '), '#skip' ) }}
-        run: echo '$JOIN_MSG'
+        run: echo $JOIN_MSG
