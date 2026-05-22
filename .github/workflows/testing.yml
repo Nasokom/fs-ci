@@ -25,8 +25,5 @@ jobs:
 
       - name: Join all msg
         env:
-           JOIN_MSG: join( $COMMIT_MESSAGES,', ')
-        run: echo "$JOIN_MSG"
-
-      - name: validation 
-        run: echo "contains( '$JOIN_MSG' ,'#skip' )"
+           JOIN_MSG: ${{ contains( join(toJson(github.event.commits.*.message), ', '), "#skip") }}
+        run: echo JOIN_MSG
