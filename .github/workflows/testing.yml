@@ -27,3 +27,6 @@ jobs:
         env:
            JOIN_MSG: join( $COMMIT_MESSAGES,', ')
         run: echo $JOIN_MSG
+
+      - name: validation 
+        run: contains($JOIN_MSG,'#skip')
