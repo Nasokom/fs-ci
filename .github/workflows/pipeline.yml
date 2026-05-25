@@ -126,13 +126,13 @@ jobs:
             **Repo**: `${{ github.repository }}`
             **Branch**: `${{ github.ref_name }}`
             **Commit**: `${{ github.sha }}`
-            **Message**: `${{ github.event.commits.message }}`
-            **Author**: `${{ github.event.commits.author.name }}`
+            **Message**: `${{ github.event.commits[0].message }}`
+            **Author**: `${{ github.event.commits[0].author.name }}`
             **Workflow**: `${{ github.workflow }}`
             **Job**: `${{ github.job }}`
 
             [View Commit](${{ github.event.commits.url }})
-            [View Workflow Run](https://github.com/${{ github.repository }})/actions/runs/${{ github.run_id}}
+            [View Workflow Run](https://github.com/${{ github.repository }})/actions/runs/${{ github.run_id}})
 
           image: ${{ secrets.EMBED_IMAGE }}
           color: 0xff0000
