@@ -63,17 +63,18 @@ jobs:
           content: " :x: Build failed! The pipeline encountered an error"
           title: "Failure details"
           description: |
-            **Repo**: `${{ github.repository }}`
-            **Branch**: `${{ github.ref_name }}`
-            **Commit**: `${{ github.sha }}`
-            **Message**: `${{ github.event.commits.message }}`
-            **Author**: `${{ github.event.commits.author.name }}`
-            **Workflow**: `${{ github.workflow }}`
-            **Job**: `${{ github.job }}`
+            **Repo**: ${{ github.repository }}
+            **Branch**: ${{ github.ref_name }}
+            **Commit**: ${{ github.sha }}
+            **Message**: ${{ github.event.commits.message }}
+            **Author**: ${{ github.event.commits.author.name }}
+            **Workflow**: ${{ github.workflow }}
+            **Job**: ${{ github.job }}
 
             [View Commit](${{ github.event.commits[0].url }})
-            
-            [View Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+            View Workflow Run:
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
           image: ${{ secrets.EMBED_IMAGE }}
           color: 0xff0000
