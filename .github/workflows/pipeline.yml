@@ -72,7 +72,7 @@ jobs:
             **Job**: `${{ github.job }}`
 
             [View Commit](${{ github.event.commits.url }})
-            [View Workflow Run](https://github.com/${{ github.repository }})/actions/runs/${{ github.run_id}}
+            [View Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}
 
           image: ${{ secrets.EMBED_IMAGE }}
           color: 0xff0000
@@ -88,6 +88,7 @@ jobs:
           fetch-depth: 0
      - name: try to fail 
        run: exit 1
+       
      - name: Bump version and push tag
        uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8
        env: 
@@ -132,7 +133,7 @@ jobs:
             **Job**: `${{ github.job }}`
 
             [View Commit](${{ github.event.commits.url }})
-            [View Workflow Run](https://github.com/${{ github.repository }})/actions/runs/${{ github.run_id}})
+            [View Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}
 
           image: ${{ secrets.EMBED_IMAGE }}
           color: 0xff0000
