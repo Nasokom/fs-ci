@@ -52,6 +52,12 @@ jobs:
         run: |
           curl "$deploy_url"     
 
+      - name: Prepare URLs
+        id: prep
+        run: |
+          echo "workflow_url=https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> $GITHUB_OUTPUT
+          echo "commit_url=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}" >> $GITHUB_OUTPUT
+
       - name: The job has failed
         uses: sarisia/actions-status-discord@v1
         if: ${{ failure() }}
@@ -71,10 +77,11 @@ jobs:
             **Workflow**: ${{ github.workflow }}
             **Job**: ${{ github.job }}
 
-            [View Commit](${{ github.event.commits[0].url }})
+            Commit:
+            ${{ steps.prep.outputs.commit_url }}
 
-            View Workflow Run:
-            <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>
+            Workflow Run:
+            ${{ steps.prep.outputs.workflow_url }}
 
           image: ${{ secrets.EMBED_IMAGE }}
           color: 0xff0000
