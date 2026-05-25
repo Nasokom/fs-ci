@@ -89,7 +89,7 @@ jobs:
      - name: try to fail 
        run: exit 1
      - name: Bump version and push tag
-       uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8ss
+       uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8
        env: 
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
