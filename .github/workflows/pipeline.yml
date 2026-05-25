@@ -78,62 +78,62 @@ jobs:
           color: 0xff0000
 
 
-  # tag_release:
-  #   needs: [simple_deployment_pipeline]
-  #   runs-on: ubuntu-latest
-  #   if: ${{ contains( join( github.event.commits.*.message, ', '), '#skip' ) == false }}
-  #   steps:
-  #    - name: Checkout repository
-  #      uses: actions/checkout@v4
-  #      with:
-  #         fetch-depth: 0
-  #    - name: Bump version and push tag
-  #      uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8
-  #      env: 
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-latest
+    if: ${{ contains( join( github.event.commits.*.message, ', '), '#skip' ) == false }}
+    steps:
+     - name: Checkout repository
+       uses: actions/checkout@v4
+       with:
+          fetch-depth: 0
+     - name: Bump version and push tag
+       uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8
+       env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
-  #     - name: The job has succeeded
-  #       uses: sarisia/actions-status-discord@v1
-  #       if: ${{ success() }}
-  #       with:
-  #         webhook: ${{ secrets.DISCORD_WEBHOOK }}
-  #         status: ${{ job.status }}
-  #         nodetail: true
-  #         username: Fullstack part 11 Hook
-  #         color: 0x00ff00
-  #         content: ":white_check_mark:  Deployement Successful! A new version deployed to production"
-  #         title: "Deployement Details"
-  #         description: | 
-  #           **Commit**: `${{ github.sha }}`
-  #           **Message**: `${{ github.event.commits[0].message }}`
-  #           **Author**: `${{ github.event.commits[0].author.name }}`
+      - name: The job has succeeded
+        uses: sarisia/actions-status-discord@v1
+        if: ${{ success() }}
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          nodetail: true
+          username: Fullstack part 11 Hook
+          color: 0x00ff00
+          content: ":white_check_mark:  Deployement Successful! A new version deployed to production"
+          title: "Deployement Details"
+          description: | 
+            **Commit**: `${{ github.sha }}`
+            **Message**: `${{ github.event.commits[0].message }}`
+            **Author**: `${{ github.event.commits[0].author.name }}`
 
-  #         url: "https://github.com/sarisia/actions-status-discord"
-  #         avatar_url: ${{ secrets.AVATAR_URL }}
-  #     - name: The job has failed
-  #       uses: sarisia/actions-status-discord@v1
-  #       if: ${{ failure() }}
-  #       with:
-  #         webhook: ${{ secrets.DISCORD_WEBHOOK }}
-  #         status: ${{ job.status }}
-  #         nodetail: true
-  #         username: Fullstack part 11 Hook
-  #         content: " :x: Build failed! The pipeline encountered an error"
-  #         title: "Failure details"
-  #         description: |
-  #           **Repo**: `${{ github.repository }}`
-  #           **Branch**: `${{ github.ref_name }}`
-  #           **Commit**: `${{ github.sha }}`
-  #           **Message**: `${{ github.event.commits.message }}`
-  #           **Author**: `${{ github.event.commits.author.name }}`
-  #           **Workflow**: `${{ github.workflow }}`
-  #           **Job**: `${{ github.job }}`
+          url: "https://github.com/sarisia/actions-status-discord"
+          avatar_url: ${{ secrets.AVATAR_URL }}
+      - name: The job has failed
+        uses: sarisia/actions-status-discord@v1
+        if: ${{ failure() }}
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          nodetail: true
+          username: Fullstack part 11 Hook
+          content: " :x: Build failed! The pipeline encountered an error"
+          title: "Failure details"
+          description: |
+            **Repo**: `${{ github.repository }}`
+            **Branch**: `${{ github.ref_name }}`
+            **Commit**: `${{ github.sha }}`
+            **Message**: `${{ github.event.commits.message }}`
+            **Author**: `${{ github.event.commits.author.name }}`
+            **Workflow**: `${{ github.workflow }}`
+            **Job**: `${{ github.job }}`
 
-  #           [View Commit](${{ github.event.commits.url }})
-  #           [View Workflow Run](https://github.com/${{ github.repository }})/actions/runs/${{ github.run_id}}
+            [View Commit](${{ github.event.commits.url }})
+            [View Workflow Run](https://github.com/${{ github.repository }})/actions/runs/${{ github.run_id}}
 
-  #         image: ${{ secrets.EMBED_IMAGE }}
-  #         color: 0xff0000
+          image: ${{ secrets.EMBED_IMAGE }}
+          color: 0xff0000
 
   # discord_msg:
   #   needs: [simple_deployment_pipeline]
