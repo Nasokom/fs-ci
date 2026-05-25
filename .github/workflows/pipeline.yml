@@ -71,7 +71,7 @@ jobs:
             **Workflow**: `${{ github.workflow }}`
             **Job**: `${{ github.job }}`
 
-            [View Commit](${{ github.event.commits[0].url }})
+            [View Commit]${{ github.event.commits[0].url }}
             [View Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}
 
           image: ${{ secrets.EMBED_IMAGE }}
