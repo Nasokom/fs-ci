@@ -43,10 +43,6 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-      - name: skip commit 
-        if: ${{ contains( join( github.event.commits.*.message, ', '), '#skip' ) == false }}
-        run: echo 'Valid commit'
-
   deploy:
       needs: test_build
       runs-on: ubuntu-latest
@@ -58,7 +54,7 @@ jobs:
         run: curl "$deploy_url"     
 
   tag_release:
-      needs: [test_build,deploy]
+      needs: deploy
       runs-on: ubuntu-latest
       if: ${{ contains( join( github.event.commits.*.message, ', '), '#skip' ) == false }}
       steps:
@@ -79,6 +75,7 @@ jobs:
         needs: deploy
         if: always()
         steps: 
+
         - name: failed msg
           uses: sarisia/actions-status-discord@v1
           if: ${{ needs.deploy.result == 'failure' || needs.deploy.result == 'cancelled' }}
@@ -104,7 +101,7 @@ jobs:
             image: ${{ secrets.EMBED_IMAGE }}
             color: 0xff0000
         
-        - name: The job has succeeded
+        - name: success msg
           uses: sarisia/actions-status-discord@v1
           if: ${{ needs.deploy.result == 'success'}}
           with:
