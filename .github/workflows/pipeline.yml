@@ -12,20 +12,22 @@ jobs:
   test_build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
           node-version: "24"
+
       - name: Install dependencies
         run: npm ci
 
       - name: Check style
         run: npm run eslint
 
-      - name: Run npm test
+      - name: Run tests
         run: npm run test
 
-      - name: Run npm run build
+      - name: Build
         run: npm run build
 
       - name: Install Playwright Browsers
@@ -44,7 +46,12 @@ jobs:
   deploy:
     needs: test_build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && !contains(join(github.event.commits.*.message, ', '), '#skip')
+
+    if: >
+      github.ref == 'refs/heads/main' &&
+      github.event_name == 'push' &&
+      !contains(join(github.event.commits.*.message, ', '), '#skip')
+
     steps:
       - name: deploy
         env:
@@ -54,7 +61,9 @@ jobs:
   tag_release:
     needs: deploy
     runs-on: ubuntu-latest
-    if: ${{ contains( join( github.event.commits.*.message, ', '), '#skip' ) == false }}
+
+    if: ${{ !contains(join(github.event.commits.*.message, ', '), '#skip') }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -71,47 +80,47 @@ jobs:
     needs: deploy
     if: always()
 
-  steps:
-    - name: failed msg
-      uses: sarisia/actions-status-discord@v1
-      if: ${{ needs.deploy.result == 'failure' || needs.deploy.result == 'cancelled' }}
-      with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK }}
-        status: ${{ job.status }}
-        nodetail: true
-        username: Fullstack part 11 Hook
-        content: ":x: Build failed! The pipeline encountered an error"
-        title: "Failure details"
-        description: |
-          **Repo**: `${{ github.repository }}`
-          **Branch**: `${{ github.ref_name }}`
-          **Commit**: `${{ github.sha }}`
-          **Message**: `${{ github.event.head_commit.message }}`
-          **Author**: `${{ github.event.head_commit.author.name }}`
-          **Workflow**: `${{ github.workflow }}`
-          **Job**: `${{ github.job }}`
+    steps:
+      - name: failed msg
+        uses: sarisia/actions-status-discord@v1
+        if: ${{ needs.deploy.result == 'failure' || needs.deploy.result == 'cancelled' }}
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          nodetail: true
+          username: Fullstack part 11 Hook
+          content: ":x: Build failed! The pipeline encountered an error"
+          title: "Failure details"
+          description: |
+            **Repo**: `${{ github.repository }}`
+            **Branch**: `${{ github.ref_name }}`
+            **Commit**: `${{ github.sha }}`
+            **Message**: `${{ github.event.head_commit.message }}`
+            **Author**: `${{ github.event.head_commit.author.name }}`
+            **Workflow**: `${{ github.workflow }}`
+            **Job**: `${{ github.job }}`
 
-          [View Commit](${{ github.event.head_commit.url }})
-          [View Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            [View Commit](${{ github.event.head_commit.url }})
+            [View Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
-        image: ${{ secrets.EMBED_IMAGE }}
-        color: 0xff0000
+          image: ${{ secrets.EMBED_IMAGE }}
+          color: 0xff0000
 
-    - name: success msg
-      uses: sarisia/actions-status-discord@v1
-      if: ${{ needs.deploy.result == 'success' }}
-      with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK }}
-        status: ${{ job.status }}
-        nodetail: true
-        username: Fullstack part 11 Hook
-        color: 0x00ff00
-        content: ":white_check_mark: Deployement Successful!"
-        title: "Deployement Details"
-        description: |
-          **Commit**: `${{ github.sha }}`
-          **Message**: `${{ github.event.head_commit.message }}`
-          **Author**: `${{ github.event.head_commit.author.name }}`
+      - name: success msg
+        uses: sarisia/actions-status-discord@v1
+        if: ${{ needs.deploy.result == 'success' }}
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          nodetail: true
+          username: Fullstack part 11 Hook
+          color: 0x00ff00
+          content: ":white_check_mark: Deployment Successful!"
+          title: "Deployment Details"
+          description: |
+            **Commit**: `${{ github.sha }}`
+            **Message**: `${{ github.event.head_commit.message }}`
+            **Author**: `${{ github.event.head_commit.author.name }}`
 
-        url: "https://github.com/sarisia/actions-status-discord"
-        avatar_url: ${{ secrets.AVATAR_URL }}
+          url: "https://github.com/sarisia/actions-status-discord"
+          avatar_url: ${{ secrets.AVATAR_URL }}
