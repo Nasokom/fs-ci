@@ -48,7 +48,7 @@ jobs:
       runs-on: ubuntu-latest
       if: github.ref == 'refs/heads/main' && github.event_name == 'push' && !contains(join(github.event.commits.*.message, ', '), '#skip')
       steps: 
-        -name: deploy
+      - name: deploy
         env:
             deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: curl "$deploy_url"     
