@@ -33,8 +33,8 @@ jobs:
       - name: Run Playwright tests
         run: npm run test:e2e
 
-      - name: mock failed job
-        run: exit 1
+    
+        
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
@@ -86,8 +86,8 @@ jobs:
     needs: [test-build]
     runs-on: ubuntu-latest
     steps: 
-      # - name: try to fail 
-      #   run: exit 1
+      - name: try to fail 
+        run: exit 1
       - name: Deploy
         if: github.ref == 'refs/heads/main' && github.event_name == 'push' && !contains(join(github.event.commits.*.message, ', '), '#skip')
         env:
