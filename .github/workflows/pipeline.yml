@@ -103,6 +103,9 @@ jobs:
   notify_success: 
       needs: [build_and_test,deploy]
       runs-on: ubuntu-latest
+      concurrency:
+        group: example-group
+        cancel-in-progress: true
       steps:
       - name: success_msg
         uses: sarisia/actions-status-discord@v1
@@ -124,6 +127,11 @@ jobs:
   tag_release:
     needs: [deploy,build_and_test]
     runs-on: ubuntu-latest
+
+    concurrency:
+        group: example-group
+        cancel-in-progress: true
+        
     if: ${{ contains( join( github.event.commits.*.message, ', '), '#skip' ) == false }}
     steps:
      - name: Checkout repository
