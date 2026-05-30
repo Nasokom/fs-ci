@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  test-build:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -43,7 +43,7 @@ jobs:
           retention-days: 30
     
   deploy:
-    needs: [test-build]
+    needs: [build_and_test]
     runs-on: ubuntu-latest
     steps: 
       - name: Deploy
@@ -51,25 +51,17 @@ jobs:
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
-          curl "$deploy_url"     
-  tag_release:
-    needs: [deploy,test-build]
-    runs-on: ubuntu-latest
-    if: ${{ contains( join( github.event.commits.*.message, ', '), '#skip' ) == false }}
-    steps:
-     - name: Checkout repository
-       uses: actions/checkout@v4
-       with:
-          fetch-depth: 0
-     - name: Bump version and push tag
-       uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8
-       env: 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  notify: 
-      needs: [test-build,deploy]
+          curl "$deploy_url"   
+  
+  notify_failure: 
+      needs: [build_and_test,deploy]
       runs-on: ubuntu-latest
-      if: always()
+      if: | 
+          needs.deploy.result == 'failure' ||
+          needs.build_and_test.result == 'failure' ||
+          needs.deploy.result == 'cancelled' ||
+          needs.build_and_test.result == 'cancelled' 
+
       steps:
       - name: Find failed jobs
         id: failed_jobs
@@ -86,11 +78,6 @@ jobs:
 
       - name: err_msg 
         uses: sarisia/actions-status-discord@v1
-        if: | 
-          needs.deploy.result == 'failure' ||
-          needs.test-build.result == 'failure' ||
-          needs.deploy.result == 'cancelled' ||
-          needs.test-build.result == 'cancelled' 
 
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
@@ -113,6 +100,11 @@ jobs:
 
           image: ${{ secrets.EMBED_IMAGE }}
           color: 0xff0000
+  notify_success: 
+      needs: [build_and_test,deploy]
+      runs-on: ubuntu-latest
+      if: always()
+      steps:
       - name: success_msg
         uses: sarisia/actions-status-discord@v1
         if: ${{ needs.simple_deployment_pipeline.result == 'success' }}
@@ -131,3 +123,16 @@ jobs:
 
           url: "https://github.com/sarisia/actions-status-discord"
           avatar_url: ${{ secrets.AVATAR_URL }}
+  tag_release:
+    needs: [deploy,build_and_test]
+    runs-on: ubuntu-latest
+    if: ${{ contains( join( github.event.commits.*.message, ', '), '#skip' ) == false }}
+    steps:
+     - name: Checkout repository
+       uses: actions/checkout@v4
+       with:
+          fetch-depth: 0
+     - name: Bump version and push tag
+       uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8
+       env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
