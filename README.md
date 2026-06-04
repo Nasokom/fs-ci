@@ -16,6 +16,6 @@ Start by running `npm install` inside the project folder
 
 url: https://fs-ci.onrender.com
 
-## App Repositary from exercices 21-22 (own pipeline)
+## App repository from exercices 21-22 (own pipeline)
 
 url: https://github.com/Nasokom/fs-ci_own-pipeline
