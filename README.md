@@ -14,4 +14,8 @@ Start by running `npm install` inside the project folder
 
 ## deployed version (render.com)
 
-url:https://fs-ci.onrender.com
+url: https://fs-ci.onrender.com
+
+## App Repositary from exercices 21-22 (own pipeline)
+
+url: https://github.com/Nasokom/fs-ci_own-pipeline

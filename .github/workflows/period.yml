@@ -22,4 +22,4 @@ jobs:
             # Retry all errors, including 404. This option might trigger curl upgrade.
             retry-all: false # Optional, defaults to "false"
             # String representation of cookie attached to health check request.
-            # Format: `Name=Value`
+            # Format: `Name=Value`git
