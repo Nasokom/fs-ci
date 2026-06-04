@@ -46,7 +46,9 @@ module.exports = [
       sourceType: 'module',
       parserOptions: {
         ecmaFeatures: {
-          jsx: true
+          jsx: true,
+          "sourceType": "module",
+
         }
       },
       globals: {
